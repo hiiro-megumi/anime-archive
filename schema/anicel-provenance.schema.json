@@ -1,0 +1,337 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schema.loppo.co.jp/anicel-provenance/v1",
+  "title": "Anicel Provenance Record",
+  "description": "セル画・原画の来歴（プロビナンス）を記録するための標準メタデータスキーマ v1。SPECTRUM / CIDOC-CRM の概念を参考にしつつ、アニメ制作現場の実情に合わせて設計した草案。",
+  "type": "object",
+  "required": ["schema", "id", "recorded_by", "recorded_at"],
+  "unevaluatedProperties": false,
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "anicel-provenance/v1",
+      "description": "スキーマ識別子（バージョン管理用）"
+    },
+    "id": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^urn:anicel:[a-z0-9-]+:.+$",
+      "description": "このレコードの一意識別子（URN形式。例: urn:anicel:uuid:550e8400-e29b-41d4-a716-446655440000）",
+      "examples": ["urn:anicel:uuid:550e8400-e29b-41d4-a716-446655440000"]
+    },
+    "work": {
+      "type": "string",
+      "minLength": 1,
+      "description": "作品タイトル（正式名称、または記録者が最善と判断した名称）。未同定の場合は省略して notes または identification_note に記録すること"
+    },
+    "identification_note": {
+      "type": "string",
+      "description": "作品同定に関する注記（未確認・推定・調査中の旨など）"
+    },
+    "episode": {
+      "type": "string",
+      "description": "話数・サブタイトル、または劇場版タイトル（該当する場合）"
+    },
+    "cut": {
+      "type": "string",
+      "description": "カット番号（例: A-023、SC-045など）"
+    },
+    "scene": {
+      "type": "string",
+      "description": "シーンの内容説明（人物、状況、構図など）"
+    },
+    "layer": {
+      "type": "string",
+      "enum": ["genga", "douga", "cel", "bg", "unknown"],
+      "description": "資料の種別。genga=原画, douga=動画, cel=彩色セル, bg=背景, unknown=不明",
+      "default": "unknown"
+    },
+    "production": {
+      "type": "object",
+      "description": "制作情報",
+      "unevaluatedProperties": false,
+      "properties": {
+        "studio": {
+          "type": "string",
+          "description": "制作スタジオ名"
+        },
+        "production_date": {
+          "type": "object",
+          "description": "制作年代情報（不確実な年代範囲・推定を表現するためのオブジェクト）",
+          "unevaluatedProperties": false,
+          "properties": {
+            "earliest": {
+              "type": "integer",
+              "minimum": 1910,
+              "maximum": 2100,
+              "description": "制作年代の下限（年）"
+            },
+            "latest": {
+              "type": "integer",
+              "minimum": 1910,
+              "maximum": 2100,
+              "description": "制作年代の上限（年）"
+            },
+            "circa": {
+              "type": "boolean",
+              "default": false,
+              "description": "年代が推定値の場合は true（「頃」）"
+            },
+            "evidence": {
+              "type": "string",
+              "description": "年代判断の根拠（例: 放映時期、素材の劣化状態、塗料ロット等）"
+            }
+          }
+        },
+        "animation_director": {
+          "type": "string",
+          "description": "作画監督名"
+        },
+        "key_animator": {
+          "type": "string",
+          "description": "原画担当者名"
+        },
+        "in_between_animator": {
+          "type": "string",
+          "description": "動画担当者名"
+        },
+        "color_designer": {
+          "type": "string",
+          "description": "色彩設計者名"
+        },
+        "colorist": {
+          "type": "string",
+          "description": "彩色担当者名"
+        }
+      }
+    },
+    "materials": {
+      "type": "object",
+      "description": "素材・画材情報",
+      "unevaluatedProperties": false,
+      "properties": {
+        "support": {
+          "description": "支持体の種類",
+          "oneOf": [
+            { "type": "string" },
+            {
+              "type": "object",
+              "required": ["value"],
+              "properties": {
+                "value": { "type": "string" },
+                "vocabulary": { "type": "string", "description": "使用した制御語彙のURI（省略可）" }
+              }
+            }
+          ]
+        },
+        "paint": {
+          "description": "使用塗料",
+          "oneOf": [
+            { "type": "string" },
+            {
+              "type": "object",
+              "required": ["value"],
+              "properties": {
+                "value": { "type": "string" },
+                "vocabulary": { "type": "string" }
+              }
+            }
+          ]
+        },
+        "dimensions_mm": {
+          "type": "object",
+          "description": "サイズ（ミリメートル）",
+          "required": ["width", "height"],
+          "unevaluatedProperties": false,
+          "properties": {
+            "width": { "type": "number", "minimum": 0, "description": "幅（mm）" },
+            "height": { "type": "number", "minimum": 0, "description": "高さ（mm）" }
+          }
+        },
+        "field_size": {
+          "type": "string",
+          "description": "フィールドサイズ（例: 12F、16F）"
+        }
+      }
+    },
+    "condition_assessment": {
+      "type": "object",
+      "description": "保存状態の評価（SPECTRUM 準拠）",
+      "unevaluatedProperties": false,
+      "properties": {
+        "statement": {
+          "type": "string",
+          "description": "保存状態の記述"
+        },
+        "assessed_by": {
+          "type": "string",
+          "description": "評価者（個人名または機関名）"
+        },
+        "assessed_at": {
+          "type": "string",
+          "format": "date",
+          "description": "評価日（YYYY-MM-DD）"
+        },
+        "method": {
+          "type": "string",
+          "description": "評価方法（目視・UV照射・X線等）"
+        }
+      }
+    },
+    "custody": {
+      "type": "array",
+      "description": "所有権の連鎖（custody chain）。古い順に記録する",
+      "items": {
+        "type": "object",
+        "required": ["to"],
+        "unevaluatedProperties": false,
+        "properties": {
+          "event_type": {
+            "type": "string",
+            "enum": ["purchase", "gift", "inheritance", "transfer", "found", "unknown"],
+            "description": "取得の種別"
+          },
+          "from": {
+            "type": "string",
+            "description": "譲渡元（スタジオ、個人、オークション等）"
+          },
+          "to": {
+            "type": "string",
+            "description": "譲受人または現所有者"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "description": "取得日（YYYY-MM-DD形式。不明な場合は省略可）"
+          },
+          "location": {
+            "type": "string",
+            "description": "取引・移転が行われた場所（例: オークション会場名、都市名）"
+          },
+          "evidence": {
+            "type": "string",
+            "description": "証拠資料の説明（領収書番号、オークションロット番号、証明書番号等）"
+          },
+          "certainty": {
+            "type": "string",
+            "enum": ["confirmed", "probable", "possible", "unknown"],
+            "description": "情報の確度",
+            "default": "unknown"
+          },
+          "note": {
+            "type": "string",
+            "description": "補足"
+          }
+        }
+      }
+    },
+    "capture": {
+      "type": "object",
+      "description": "撮影・スキャン記録",
+      "unevaluatedProperties": false,
+      "properties": {
+        "capture_method": {
+          "type": "string",
+          "enum": ["photography", "flatbed_scan", "drum_scan", "rtl", "other"],
+          "description": "撮影方法（photography=カメラ撮影, flatbed_scan=フラットベッドスキャナ, rtl=反射変換イメージング等）"
+        },
+        "device": {
+          "type": "string",
+          "description": "撮影機器（例: Sony α7IV、Epson GT-X980）"
+        },
+        "settings": {
+          "type": "string",
+          "description": "撮影条件（照明・フィルター等）"
+        },
+        "date": {
+          "type": "string",
+          "format": "date",
+          "description": "撮影日（YYYY-MM-DD）"
+        },
+        "pixel_width": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "画像の幅（ピクセル）"
+        },
+        "pixel_height": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "画像の高さ（ピクセル）"
+        },
+        "color_space": {
+          "type": "string",
+          "description": "色空間（例: sRGB, AdobeRGB, ProPhoto）"
+        },
+        "bit_depth": {
+          "type": "integer",
+          "enum": [8, 16, 32],
+          "description": "ビット深度"
+        },
+        "resolution_dpi": {
+          "type": "integer",
+          "minimum": 72,
+          "description": "解像度（dpi）。スキャン時のみ推奨、カメラ撮影では省略可"
+        }
+      }
+    },
+    "attachments": {
+      "type": "array",
+      "description": "添付ファイルの一覧",
+      "items": {
+        "type": "object",
+        "required": ["url", "role"],
+        "unevaluatedProperties": false,
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "ファイルURL"
+          },
+          "role": {
+            "type": "string",
+            "enum": ["primary", "reverse", "detail", "uv", "ir", "xray", "raking_light", "other"],
+            "description": "primary=表面, reverse=裏面, detail=細部, uv=UV撮影, ir=赤外線, xray=X線, raking_light=斜光撮影"
+          },
+          "media_type": {
+            "type": "string",
+            "description": "MIMEタイプ（例: image/jpeg, image/tiff）"
+          },
+          "width_px": { "type": "integer", "minimum": 1 },
+          "height_px": { "type": "integer", "minimum": 1 },
+          "hash_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "description": "ファイルのSHA-256ハッシュ（hex）"
+          }
+        }
+      }
+    },
+    "recorded_by": {
+      "type": "string",
+      "description": "記録者（個人名、機関名、または識別子）"
+    },
+    "recorded_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "記録日時（ISO 8601、UTC推奨）"
+    },
+    "rights": {
+      "type": "string",
+      "description": "このレコード自体の著作権表示（例: CC0 1.0, CC BY 4.0）"
+    },
+    "access": {
+      "type": "string",
+      "enum": ["public", "restricted", "private"],
+      "description": "公開範囲（public=公開, restricted=限定公開, private=非公開）",
+      "default": "private"
+    },
+    "notes": {
+      "type": "string",
+      "description": "その他の備考・自由記述"
+    },
+    "extensions": {
+      "type": "object",
+      "description": "機関・個人独自の拡張フィールド。名前空間プレフィックスを使うことを推奨（例: {\"myorg:local_id\": \"...\"} ）"
+    }
+  }
+}

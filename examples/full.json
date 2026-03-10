@@ -1,0 +1,103 @@
+{
+  "schema": "anicel-provenance/v1",
+  "id": "urn:anicel:uuid:7c9e6679-7425-40de-944b-e07fc1f90ae7",
+  "work": "（作品タイトル）",
+  "episode": "第12話「（サブタイトル）」",
+  "cut": "A-023",
+  "scene": "主人公が振り返るシーン（バストアップ）",
+  "layer": "cel",
+  "production": {
+    "studio": "（制作スタジオ名）",
+    "production_date": {
+      "earliest": 1989,
+      "latest": 1989,
+      "circa": false,
+      "evidence": "放映日（1989年春）と制作スケジュールから確定"
+    },
+    "animation_director": "（作画監督名）",
+    "key_animator": "（原画担当者名）",
+    "in_between_animator": "（動画担当者名）",
+    "color_designer": "（色彩設計者名）",
+    "colorist": "（彩色担当者名）"
+  },
+  "materials": {
+    "support": "酢酸セルロース系フィルム（TAC）",
+    "paint": {
+      "value": "太陽色彩 セルビニール",
+      "vocabulary": "https://schema.loppo.co.jp/vocab/paint-materials/v1"
+    },
+    "dimensions_mm": {
+      "width": 170,
+      "height": 240
+    },
+    "field_size": "12F"
+  },
+  "condition_assessment": {
+    "statement": "良好。左下隅に軽微な折れ跡あり。彩色面の剥離なし。",
+    "assessed_by": "六方画材 担当者",
+    "assessed_at": "2026-01-15",
+    "method": "目視 + UV照射"
+  },
+  "custody": [
+    {
+      "event_type": "transfer",
+      "from": "（制作スタジオ）",
+      "to": "（最初の個人収集家）",
+      "date": "1991-05-15",
+      "certainty": "possible",
+      "note": "スタジオ直接放出品との情報あり。証拠資料なし。"
+    },
+    {
+      "event_type": "purchase",
+      "from": "（最初の個人収集家）",
+      "to": "六方画材",
+      "date": "2025-09-20",
+      "location": "東京都内",
+      "evidence": "領収書 No.2025-0920-01（2025-09-20付）",
+      "certainty": "confirmed",
+      "note": "個人間取引"
+    }
+  ],
+  "capture": {
+    "capture_method": "photography",
+    "device": "Sony α7IV + Sigma 90mm Macro",
+    "settings": "D65標準光源 2灯、拡散ライト使用",
+    "date": "2026-01-15",
+    "pixel_width": 6000,
+    "pixel_height": 8000,
+    "color_space": "AdobeRGB",
+    "bit_depth": 16
+  },
+  "attachments": [
+    {
+      "url": "https://archive.loppo.co.jp/anicel/7c9e6679/front.jpg",
+      "role": "primary",
+      "media_type": "image/jpeg",
+      "width_px": 6000,
+      "height_px": 8000
+    },
+    {
+      "url": "https://archive.loppo.co.jp/anicel/7c9e6679/reverse.jpg",
+      "role": "reverse",
+      "media_type": "image/jpeg",
+      "width_px": 6000,
+      "height_px": 8000
+    },
+    {
+      "url": "https://archive.loppo.co.jp/anicel/7c9e6679/uv.jpg",
+      "role": "uv",
+      "media_type": "image/jpeg",
+      "width_px": 6000,
+      "height_px": 8000
+    }
+  ],
+  "recorded_by": "loppo-rokkaho",
+  "recorded_at": "2026-01-15T09:30:00Z",
+  "rights": "CC BY 4.0",
+  "access": "public",
+  "notes": "UV撮影では右上部に前修復の痕跡と思われる蛍光反応あり。要追加調査。",
+  "extensions": {
+    "loppo:internal_id": "ROKK-2026-0115-001",
+    "loppo:storage_location": "六方画材 保管室 A-棚3"
+  }
+}
