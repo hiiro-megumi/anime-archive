@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://schema.loppo.co.jp/anicel-provenance/v2",
-  "title": "Anicel Provenance Record",
+  "$id": "https://schema.loppo.co.jp/anime-archive/v2",
+  "title": "Anime Archive Record",
   "description": "アニメ中間制作物（セル画・原画・背景画等）の記録を目的とした標準メタデータスキーマ v2。商業的動機が生じない作品の資料を最低限記録するための基盤として設計した草案。v1 からの主な変更: custody フィールド削除（来歴追跡はスタジオ側の参加インセンティブと相反するため）、current_custodian・madb_id フィールド追加、layer に layout/settei/konte を追加。",
   "type": "object",
   "required": [
@@ -14,16 +14,16 @@
   "properties": {
     "schema": {
       "type": "string",
-      "const": "anicel-provenance/v2",
+      "const": "anime-archive/v2",
       "description": "スキーマ識別子（バージョン管理用）"
     },
     "id": {
       "type": "string",
       "format": "uri",
-      "pattern": "^urn:anicel:[a-z0-9-]+:.+$",
-      "description": "このレコードの一意識別子（URN形式。例: urn:anicel:uuid:550e8400-e29b-41d4-a716-446655440000）",
+      "pattern": "^urn:anime-archive:[a-z0-9-]+:.+$",
+      "description": "このレコードの一意識別子（URN形式。例: urn:anime-archive:uuid:550e8400-e29b-41d4-a716-446655440000）",
       "examples": [
-        "urn:anicel:uuid:550e8400-e29b-41d4-a716-446655440000"
+        "urn:anime-archive:uuid:550e8400-e29b-41d4-a716-446655440000"
       ]
     },
     "work": {

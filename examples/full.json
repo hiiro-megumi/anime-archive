@@ -1,6 +1,6 @@
 {
-  "schema": "anicel-provenance/v2",
-  "id": "urn:anicel:uuid:7c9e6679-7425-40de-944b-e07fc1f90ae7",
+  "schema": "anime-archive/v2",
+  "id": "urn:anime-archive:uuid:7c9e6679-7425-40de-944b-e07fc1f90ae7",
   "work": "（作品タイトル）",
   "episode": "第12話「（サブタイトル）」",
   "cut": "A-023",

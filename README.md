@@ -1,4 +1,4 @@
-# anicel-provenance
+# anime-archive
 
 **アニメ中間制作物（セル画・原画・背景画等）の記録を目的とした標準メタデータスキーマ**
 
@@ -20,7 +20,7 @@ JSON Schema 2020-12 準拠の草案仕様です。商業的動機が生じない
 
 ## スキーマ
 
-`schema/anicel-provenance.schema.json`
+`schema/anime-archive.schema.json`
 
 JSON Schema 2020-12 準拠。主なフィールド：
 
@@ -28,7 +28,7 @@ JSON Schema 2020-12 準拠。主なフィールド：
 |---|---|---|
 | フィールド | 必須 | 説明 |
 |---|---|---|
-| `schema` | ✓ | スキーマ識別子（`"anicel-provenance/v2"` 固定） |
+| `schema` | ✓ | スキーマ識別子（`"anime-archive/v2"` 固定） |
 | `id` | ✓ | レコードの一意識別子（URN形式） |
 | `work` | — | 作品タイトル（未同定の場合は省略して `identification_note` に記述） |
 | `layer` | — | 種別（`genga` / `douga` / `cel` / `bg` / `layout` / `settei` / `konte` / `unknown`） |
@@ -53,8 +53,8 @@ JSON Schema 2020-12 準拠。主なフィールド：
 
 ```json
 {
-  "schema": "anicel-provenance/v2",
-  "id": "urn:anicel:uuid:550e8400-e29b-41d4-a716-446655440000",
+  "schema": "anime-archive/v2",
+  "id": "urn:anime-archive:uuid:550e8400-e29b-41d4-a716-446655440000",
   "layer": "cel",
   "identification_note": "作品タイトル調査中",
   "current_custodian": "所蔵機関名または個人名",
@@ -71,7 +71,7 @@ JSON Schema 2020-12 準拠。主なフィールド：
 pip install jsonschema
 python3 -c "
 import json, jsonschema
-schema = json.load(open('schema/anicel-provenance.schema.json'))
+schema = json.load(open('schema/anime-archive.schema.json'))
 record = json.load(open('your-record.json'))
 jsonschema.validate(record, schema)
 print('Valid')
