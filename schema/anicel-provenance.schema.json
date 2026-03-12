@@ -1,15 +1,20 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://schema.loppo.co.jp/anicel-provenance/v1",
+  "$id": "https://schema.loppo.co.jp/anicel-provenance/v2",
   "title": "Anicel Provenance Record",
-  "description": "セル画・原画の来歴（プロビナンス）を記録するための標準メタデータスキーマ v1。SPECTRUM / CIDOC-CRM の概念を参考にしつつ、アニメ制作現場の実情に合わせて設計した草案。",
+  "description": "アニメ中間制作物（セル画・原画・背景画等）の記録を目的とした標準メタデータスキーマ v2。商業的動機が生じない作品の資料を最低限記録するための基盤として設計した草案。v1 からの主な変更: custody フィールド削除（来歴追跡はスタジオ側の参加インセンティブと相反するため）、current_custodian・madb_id フィールド追加、layer に layout/settei/konte を追加。",
   "type": "object",
-  "required": ["schema", "id", "recorded_by", "recorded_at"],
+  "required": [
+    "schema",
+    "id",
+    "recorded_by",
+    "recorded_at"
+  ],
   "unevaluatedProperties": false,
   "properties": {
     "schema": {
       "type": "string",
-      "const": "anicel-provenance/v1",
+      "const": "anicel-provenance/v2",
       "description": "スキーマ識別子（バージョン管理用）"
     },
     "id": {
@@ -17,7 +22,9 @@
       "format": "uri",
       "pattern": "^urn:anicel:[a-z0-9-]+:.+$",
       "description": "このレコードの一意識別子（URN形式。例: urn:anicel:uuid:550e8400-e29b-41d4-a716-446655440000）",
-      "examples": ["urn:anicel:uuid:550e8400-e29b-41d4-a716-446655440000"]
+      "examples": [
+        "urn:anicel:uuid:550e8400-e29b-41d4-a716-446655440000"
+      ]
     },
     "work": {
       "type": "string",
@@ -42,8 +49,17 @@
     },
     "layer": {
       "type": "string",
-      "enum": ["genga", "douga", "cel", "bg", "unknown"],
-      "description": "資料の種別。genga=原画, douga=動画, cel=彩色セル, bg=背景, unknown=不明",
+      "enum": [
+        "genga",
+        "douga",
+        "cel",
+        "bg",
+        "layout",
+        "settei",
+        "konte",
+        "unknown"
+      ],
+      "description": "資料の種別。genga=原画, douga=動画, cel=彩色セル, bg=背景, layout=レイアウト, settei=設定画, konte=絵コンテ, unknown=不明",
       "default": "unknown"
     },
     "production": {
@@ -105,6 +121,14 @@
         }
       }
     },
+    "current_custodian": {
+      "type": "string",
+      "description": "現在の所蔵機関または個人。来歴の全連鎖ではなく「今誰が持っているか」のみを記録する。機関名・個人名・識別子のいずれでも可"
+    },
+    "madb_id": {
+      "type": "string",
+      "description": "メディア芸術データベース（MADB）の作品識別子。あれば記録することで完成作品の書誌情報との照合起点になる"
+    },
     "materials": {
       "type": "object",
       "description": "素材・画材情報",
@@ -113,27 +137,44 @@
         "support": {
           "description": "支持体の種類",
           "oneOf": [
-            { "type": "string" },
+            {
+              "type": "string"
+            },
             {
               "type": "object",
-              "required": ["value"],
+              "required": [
+                "value"
+              ],
               "properties": {
-                "value": { "type": "string" },
-                "vocabulary": { "type": "string", "description": "使用した制御語彙のURI（省略可）" }
+                "value": {
+                  "type": "string"
+                },
+                "vocabulary": {
+                  "type": "string",
+                  "description": "使用した制御語彙のURI（省略可）"
+                }
               }
             }
           ]
         },
         "paint": {
-          "description": "使用塗料",
+          "description": "使用塗料。六方彩色デジタルアーカイブとの照合用。汎用的な記録では省略を推奨し、必要であれば extensions に記録すること",
           "oneOf": [
-            { "type": "string" },
+            {
+              "type": "string"
+            },
             {
               "type": "object",
-              "required": ["value"],
+              "required": [
+                "value"
+              ],
               "properties": {
-                "value": { "type": "string" },
-                "vocabulary": { "type": "string" }
+                "value": {
+                  "type": "string"
+                },
+                "vocabulary": {
+                  "type": "string"
+                }
               }
             }
           ]
@@ -141,11 +182,22 @@
         "dimensions_mm": {
           "type": "object",
           "description": "サイズ（ミリメートル）",
-          "required": ["width", "height"],
+          "required": [
+            "width",
+            "height"
+          ],
           "unevaluatedProperties": false,
           "properties": {
-            "width": { "type": "number", "minimum": 0, "description": "幅（mm）" },
-            "height": { "type": "number", "minimum": 0, "description": "高さ（mm）" }
+            "width": {
+              "type": "number",
+              "minimum": 0,
+              "description": "幅（mm）"
+            },
+            "height": {
+              "type": "number",
+              "minimum": 0,
+              "description": "高さ（mm）"
+            }
           }
         },
         "field_size": {
@@ -178,53 +230,6 @@
         }
       }
     },
-    "custody": {
-      "type": "array",
-      "description": "所有権の連鎖（custody chain）。古い順に記録する",
-      "items": {
-        "type": "object",
-        "required": ["to"],
-        "unevaluatedProperties": false,
-        "properties": {
-          "event_type": {
-            "type": "string",
-            "enum": ["purchase", "gift", "inheritance", "transfer", "found", "unknown"],
-            "description": "取得の種別"
-          },
-          "from": {
-            "type": "string",
-            "description": "譲渡元（スタジオ、個人、オークション等）"
-          },
-          "to": {
-            "type": "string",
-            "description": "譲受人または現所有者"
-          },
-          "date": {
-            "type": "string",
-            "format": "date",
-            "description": "取得日（YYYY-MM-DD形式。不明な場合は省略可）"
-          },
-          "location": {
-            "type": "string",
-            "description": "取引・移転が行われた場所（例: オークション会場名、都市名）"
-          },
-          "evidence": {
-            "type": "string",
-            "description": "証拠資料の説明（領収書番号、オークションロット番号、証明書番号等）"
-          },
-          "certainty": {
-            "type": "string",
-            "enum": ["confirmed", "probable", "possible", "unknown"],
-            "description": "情報の確度",
-            "default": "unknown"
-          },
-          "note": {
-            "type": "string",
-            "description": "補足"
-          }
-        }
-      }
-    },
     "capture": {
       "type": "object",
       "description": "撮影・スキャン記録",
@@ -232,7 +237,13 @@
       "properties": {
         "capture_method": {
           "type": "string",
-          "enum": ["photography", "flatbed_scan", "drum_scan", "rtl", "other"],
+          "enum": [
+            "photography",
+            "flatbed_scan",
+            "drum_scan",
+            "rtl",
+            "other"
+          ],
           "description": "撮影方法（photography=カメラ撮影, flatbed_scan=フラットベッドスキャナ, rtl=反射変換イメージング等）"
         },
         "device": {
@@ -264,7 +275,11 @@
         },
         "bit_depth": {
           "type": "integer",
-          "enum": [8, 16, 32],
+          "enum": [
+            8,
+            16,
+            32
+          ],
           "description": "ビット深度"
         },
         "resolution_dpi": {
@@ -279,7 +294,10 @@
       "description": "添付ファイルの一覧",
       "items": {
         "type": "object",
-        "required": ["url", "role"],
+        "required": [
+          "url",
+          "role"
+        ],
         "unevaluatedProperties": false,
         "properties": {
           "url": {
@@ -289,15 +307,30 @@
           },
           "role": {
             "type": "string",
-            "enum": ["primary", "reverse", "detail", "uv", "ir", "xray", "raking_light", "other"],
+            "enum": [
+              "primary",
+              "reverse",
+              "detail",
+              "uv",
+              "ir",
+              "xray",
+              "raking_light",
+              "other"
+            ],
             "description": "primary=表面, reverse=裏面, detail=細部, uv=UV撮影, ir=赤外線, xray=X線, raking_light=斜光撮影"
           },
           "media_type": {
             "type": "string",
             "description": "MIMEタイプ（例: image/jpeg, image/tiff）"
           },
-          "width_px": { "type": "integer", "minimum": 1 },
-          "height_px": { "type": "integer", "minimum": 1 },
+          "width_px": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "height_px": {
+            "type": "integer",
+            "minimum": 1
+          },
           "hash_sha256": {
             "type": "string",
             "pattern": "^[0-9a-f]{64}$",
@@ -321,7 +354,11 @@
     },
     "access": {
       "type": "string",
-      "enum": ["public", "restricted", "private"],
+      "enum": [
+        "public",
+        "restricted",
+        "private"
+      ],
       "description": "公開範囲（public=公開, restricted=限定公開, private=非公開）",
       "default": "private"
     },
@@ -331,7 +368,7 @@
     },
     "extensions": {
       "type": "object",
-      "description": "機関・個人独自の拡張フィールド。名前空間プレフィックスを使うことを推奨（例: {\"myorg:local_id\": \"...\"} ）"
+      "description": "機関・個人独自の拡張フィールド。名前空間プレフィックスを使うことを推奨（例: {\"myorg:local_id\": \"...\"} ）。custody（来歴連鎖）・materials.paint の詳細など、スコープ外の情報もここに格納できる"
     }
   }
 }

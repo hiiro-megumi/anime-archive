@@ -1,5 +1,5 @@
 {
-  "schema": "anicel-provenance/v1",
+  "schema": "anicel-provenance/v2",
   "id": "urn:anicel:uuid:550e8400-e29b-41d4-a716-446655440000",
   "layer": "cel",
   "production": {
@@ -16,6 +16,7 @@
     "assessed_at": "2026-03-11"
   },
   "identification_note": "作品タイトル・カット番号 調査中",
+  "current_custodian": "新潟大学 ACASiN / 渡部コレクション",
   "recorded_by": "loppo-rokkaho",
   "recorded_at": "2026-03-11T05:57:00Z"
 }

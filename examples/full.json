@@ -1,5 +1,5 @@
 {
-  "schema": "anicel-provenance/v1",
+  "schema": "anicel-provenance/v2",
   "id": "urn:anicel:uuid:7c9e6679-7425-40de-944b-e07fc1f90ae7",
   "work": "（作品タイトル）",
   "episode": "第12話「（サブタイトル）」",
@@ -38,26 +38,7 @@
     "assessed_at": "2026-01-15",
     "method": "目視 + UV照射"
   },
-  "custody": [
-    {
-      "event_type": "transfer",
-      "from": "（制作スタジオ）",
-      "to": "（最初の個人収集家）",
-      "date": "1991-05-15",
-      "certainty": "possible",
-      "note": "スタジオ直接放出品との情報あり。証拠資料なし。"
-    },
-    {
-      "event_type": "purchase",
-      "from": "（最初の個人収集家）",
-      "to": "六方画材",
-      "date": "2025-09-20",
-      "location": "東京都内",
-      "evidence": "領収書 No.2025-0920-01（2025-09-20付）",
-      "certainty": "confirmed",
-      "note": "個人間取引"
-    }
-  ],
+  "current_custodian": "六方画材",
   "capture": {
     "capture_method": "photography",
     "device": "Sony α7IV + Sigma 90mm Macro",
