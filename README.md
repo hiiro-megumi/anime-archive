@@ -26,8 +26,6 @@ JSON Schema 2020-12 準拠。主なフィールド：
 
 | フィールド | 必須 | 説明 |
 |---|---|---|
-| フィールド | 必須 | 説明 |
-|---|---|---|
 | `schema` | ✓ | スキーマ識別子（`"anime-archive/v2"` 固定） |
 | `id` | ✓ | レコードの一意識別子（URN形式） |
 | `work` | — | 作品タイトル（未同定の場合は省略して `identification_note` に記述） |
@@ -91,15 +89,23 @@ npm test
 ### バリデーション（Python）
 
 ```bash
-pip install jsonschema
-python3 -c "
-import json, jsonschema
+pip install "jsonschema[format-nongpl]"
+python3 - <<'EOF'
+import json
+from jsonschema import validate, Draft202012Validator
+from jsonschema.exceptions import ValidationError
+
 schema = json.load(open('schema/anime-archive.schema.json'))
 record = json.load(open('your-record.json'))
-jsonschema.validate(record, schema)
-print('Valid')
-"
+try:
+    validate(instance=record, schema=schema, cls=Draft202012Validator)
+    print('Valid')
+except ValidationError as e:
+    print('Invalid:', e.message)
+EOF
 ```
+
+> **注意**: このスキーマは JSON Schema 2020-12 を使用しています。Python の `jsonschema` ライブラリではバージョンによって自動選択の挙動が異なるため、`Draft202012Validator` を明示的に指定すると確実です。
 
 ---
 
