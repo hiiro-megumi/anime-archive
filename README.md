@@ -65,6 +65,29 @@ JSON Schema 2020-12 準拠。主なフィールド：
 
 詳細なサンプルは `examples/full.json` を参照してください。
 
+### バリデーション（Node.js CLI）
+
+```bash
+# 依存パッケージのインストール
+npm install
+
+# レコードの検証
+node validate.js your-record.json
+
+# 複数ファイルを一括検証
+node validate.js examples/*.json
+
+# npm test（付属サンプルの全検証）
+npm test
+```
+
+エラーがある場合は、フィールドパスと日本語の説明が出力されます：
+
+```
+❌ your-record.json: 1 件のエラー
+  /layer → 許可された値ではありません（許可: genga | douga | cel | bg | layout | settei | konte | unknown）
+```
+
 ### バリデーション（Python）
 
 ```bash
@@ -94,7 +117,7 @@ print('Valid')
 - [x] v2.0 — custody 削除・current_custodian / madb_id 追加・layer 拡張（2026-03）
 - [ ] v2.1 — 制御語彙（支持体の標準語彙）の整備
 - [ ] v3.0 — `studio`・担当者の authority control 対応（`{ name, identifier }` 形式）
-- [ ] CLI ツール — レコードの作成・バリデーション・照合を補助するコマンドラインツール
+- [x] CLI ツール — `validate.js`（Node.js / ajv）によるバリデーション、日本語エラーメッセージ付き（2026-03）
 
 ---
 

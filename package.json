@@ -1,0 +1,32 @@
+{
+  "name": "anime-archive",
+  "version": "1.0.0",
+  "description": "**アニメ中間制作物（セル画・原画・背景画等）の記録を目的とした標準メタデータスキーマ**",
+  "main": "index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "validate": "node validate.js",
+    "test": "node validate.js examples/minimal.json examples/full.json && ! node validate.js tests/invalid/*.json"
+  },
+  "bin": {
+    "anime-archive-validate": "./validate.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hiiro-megumi/anime-archive.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/hiiro-megumi/anime-archive/issues"
+  },
+  "homepage": "https://github.com/hiiro-megumi/anime-archive#readme",
+  "dependencies": {
+    "ajv": "^8.18.0",
+    "ajv-formats": "^3.0.1"
+  }
+}

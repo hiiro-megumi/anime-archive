@@ -1,0 +1,9 @@
+{
+  "schema": "anime-archive/v2",
+  "id": "urn:anime-archive:uuid:aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+  "recorded_by": "test",
+  "recorded_at": "2026-01-01T00:00:00Z",
+  "custody": [
+    { "from": "Studio X", "to": "Collector Y", "date": "2000-01-01" }
+  ]
+}
