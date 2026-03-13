@@ -38,6 +38,7 @@ const ajv = new Ajv({
   allErrors: true,       // 全エラーを収集（最初のエラーで止まらない）
   strict: true,          // draft-2020-12 の厳密モード
   verbose: true,         // エラーに parentData を含める
+  useDefaults: true,     // スキーマの default 値をレコードに自動挿入
 });
 addFormats(ajv);
 

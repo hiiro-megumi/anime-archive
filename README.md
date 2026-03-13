@@ -128,6 +128,8 @@ EOF
 ```
 
 > **注意**: このスキーマは JSON Schema 2020-12 を使用しています。Python の `jsonschema` ライブラリではバージョンによって自動選択の挙動が異なるため、`Draft202012Validator` を明示的に指定すると確実です。
+>
+> **制限**: Python の `jsonschema` による検証では、`production.production_date.earliest <= latest` のカスタム制約（JSON Schema では表現できないフィールド間大小比較）は検証されません。完全な検証が必要な場合は Node.js の `validate.js` を使用してください。
 
 ---
 
