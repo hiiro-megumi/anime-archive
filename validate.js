@@ -94,12 +94,30 @@ for (const filePath of files) {
 
   // バリデーション
   const valid = validate(data);
-  if (valid) {
+  const customErrors = [];
+
+  // カスタム検証: production.production_date.earliest <= latest
+  const pd = data?.production?.production_date;
+  if (pd && typeof pd.earliest === "number" && typeof pd.latest === "number") {
+    if (pd.earliest > pd.latest) {
+      customErrors.push(
+        `  /production/production_date → earliest (${pd.earliest}) は latest (${pd.latest}) 以下でなければなりません`
+      );
+    }
+  }
+
+  if (valid && customErrors.length === 0) {
     console.log(`✅ ${label}: 有効`);
   } else {
-    console.error(`❌ ${label}: ${validate.errors.length} 件のエラー`);
-    for (const err of validate.errors) {
-      console.error(humanizeError(err));
+    const total = (validate.errors ? validate.errors.length : 0) + customErrors.length;
+    console.error(`❌ ${label}: ${total} 件のエラー`);
+    if (validate.errors) {
+      for (const err of validate.errors) {
+        console.error(humanizeError(err));
+      }
+    }
+    for (const msg of customErrors) {
+      console.error(msg);
     }
     hasError = true;
   }

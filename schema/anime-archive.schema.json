@@ -73,7 +73,7 @@
         },
         "production_date": {
           "type": "object",
-          "description": "制作年代情報（不確実な年代範囲・推定を表現するためのオブジェクト）",
+          "description": "制作年代情報（不確実な年代範囲・推定を表現するためのオブジェクト）。earliest <= latest であること（validate.js で検証）。",
           "unevaluatedProperties": false,
           "properties": {
             "earliest": {
@@ -360,7 +360,7 @@
         "private"
       ],
       "description": "公開範囲（public=公開, restricted=限定公開, private=非公開）",
-      "default": "private"
+      "default": "public"
     },
     "notes": {
       "type": "string",
